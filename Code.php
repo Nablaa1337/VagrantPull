@@ -1,26 +1,17 @@
 <?php
-$servername = "localhost";
-$username = "vagrant";
-$password = "password";
-$dbname = "myDB";
+$connection = mysql_connect('localhost', 'root', ''); //The Blank string is the password
+mysql_select_db('information_schema');
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+$query = "SELECT * FROM CHARACTER_SETS"; //You don't need a ; like you do in SQL
+$result = mysql_query($query);
+
+echo "<table>"; // start a table tag in the HTML
+
+while($row = mysql_fetch_array($result)){   //Creates a loop to loop through results
+echo "<tr><td>" . $row['CHARACTER_SET_NAME'] . "</td><td>" . $row['DEFAULT_COLLATE_NAME'] . "</td></tr>""</td><td>" . $row['DESCRIPTION'];  //$row['index'] the index here is a field name
 }
 
-$sql = "SELECT id, firstname, lastname FROM MyGuests";
-$result = $conn->query($sql);
+echo "</table>"; //Close the table in HTML
 
-if ($result->num_rows > 0) {
-    // output data of each row
-    while($row = $result->fetch_assoc()) {
-        echo "id: " . $row["id"]. " - Name: " . $row["firstname"]. " " . $row["lastname"]. "<br>";
-    }
-} else {
-    echo "0 results";
-}
-$conn->close();
+mysql_close(); //Make sure to close out the database connection
 ?> 
