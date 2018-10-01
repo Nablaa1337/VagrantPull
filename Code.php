@@ -11,13 +11,48 @@ mysqli_select_db($link, $dbname) or die("Could not open the db '$dbname'");
 $query = "SELECT * FROM employees"; //You don't need a ; like you do in SQL
 $result = mysqli_query($link, $query);
 
-echo "<table>"; // start a table tag in the HTML
-
-while($row = mysql_fetch_array($result)){   //Creates a loop to loop through results
-echo "<tr><td>" . $row['CHARACTER_SET_NAME'] . "</td><td>" . $row['DEFAULT_COLLATE_NAME'] . "</td></tr>""</td><td>" . $row['DESCRIPTION'];  //$row['index'] the index here is a field name
+if (!$result)
+{
+    $message = 'ERROR:' . mysql_error();
+    return $message;
+}
+else
+{
+    $i = 0;
+    echo '<html><head><meta charset="UTF-8"></head><body><table><tr>';
+    while ($i < mysql_num_fields($result))
+    {
+        $meta = mysql_fetch_field($result, $i);
+        echo '<td>' . $meta->name . '</td>';
+        $i = $i + 1;
+    }
+    echo '</tr>';
+   
+    $i = 0;
+    while ($row = mysql_fetch_row($result))
+    {
+        echo '<tr>';
+        $count = count($row);
+        $y = 0;
+        while ($y < $count)
+        {
+            $c_row = current($row);
+            echo '<td>' . $c_row . '</td>';
+            next($row);
+            $y = $y + 1;
+        }
+        echo '</tr>';
+        $i = $i + 1;
+    }
+    echo '</table></body></html>';
+    mysql_free_result($result);
 }
 
-echo "</table>"; //Close the table in HTML
 
-mysqli_close(); //Make sure to close out the database connection
+
+
+
+
+
+mysqli_close($link); //Make sure to close out the database connection
 ?> 
