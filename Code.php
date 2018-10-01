@@ -5,11 +5,11 @@ $dbname = 'employees';
 $dbuser = 'root';
 $dbpass = '';
 $dbhost = 'localhost';
-$link = mysqli_connect($dbhost, $dbuser, $dbpass) or die("Unable to Connect to '$dbhost'");
-mysqli_select_db($link, $dbname) or die("Could not open the db '$dbname'");
+$link = mysql_connect($dbhost, $dbuser, $dbpass) or die("Unable to Connect to '$dbhost'");
+mysql_select_db($dbname) or die("Could not open the db '$dbname'");
 
 $query = "SELECT * FROM employees"; //You don't need a ; like you do in SQL
-$result = mysqli_query($link, $query);
+$result = mysql_query($query);
 
 if (!$result)
 {
@@ -47,12 +47,3 @@ else
     echo '</table></body></html>';
     mysql_free_result($result);
 }
-
-
-
-
-
-
-
-mysqli_close($link); //Make sure to close out the database connection
-?> 
