@@ -1,9 +1,15 @@
 <?php
-$connection = mysql_connect('localhost', 'root', ''); //The Blank string is the password
-mysql_select_db('employees');
+
+
+$dbname = 'employees';
+$dbuser = 'root';
+$dbpass = '';
+$dbhost = 'localhost';
+$link = mysqli_connect($dbhost, $dbuser, $dbpass) or die("Unable to Connect to '$dbhost'");
+mysqli_select_db($link, $dbname) or die("Could not open the db '$dbname'");
 
 $query = "SELECT * FROM employees"; //You don't need a ; like you do in SQL
-$result = mysql_query($query);
+$result = mysqli_query($link, $query);
 
 echo "<table>"; // start a table tag in the HTML
 
@@ -13,5 +19,5 @@ echo "<tr><td>" . $row['CHARACTER_SET_NAME'] . "</td><td>" . $row['DEFAULT_COLLA
 
 echo "</table>"; //Close the table in HTML
 
-mysql_close(); //Make sure to close out the database connection
+mysqli_close(); //Make sure to close out the database connection
 ?> 
