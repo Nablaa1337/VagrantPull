@@ -1,16 +1,23 @@
 <?php
-
-
-$dbname = 'employees';
-$dbuser = 'root';
-$dbpass = '';
-$dbhost = 'localhost';
-$link = mysql_connect($dbhost, $dbuser, $dbpass) or die("Unable to Connect to '$dbhost'");
-mysql_select_db($dbname) or die("Could not open the db '$dbname'");
-
-$query = "SELECT * FROM employees"; //You don't need a ; like you do in SQL
+ 
+$server = 'localhost';
+$user = 'root';
+$password = '';
+ 
+$link = mysql_connect ($server, $user, $password);
+if (!$link)
+{
+    die('Error: Could not connect: ' . mysql_error());
+}
+ 
+$database = 'employees';
+ 
+mysql_select_db($database);
+ 
+$query = 'select * from employees';
+ 
 $result = mysql_query($query);
-
+ 
 if (!$result)
 {
     $message = 'ERROR:' . mysql_error();
@@ -47,3 +54,6 @@ else
     echo '</table></body></html>';
     mysql_free_result($result);
 }
+ 
+mysql_close ($link);
+?>
